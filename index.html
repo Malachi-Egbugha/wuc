@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <script  src="mainclass.js"></script>
+        <style>
+            div#editor{
+                margin: 0 auto;
+                width:  750px;
+                height: 300px;
+            }
+            div#content{
+                border-bottom:  none;
+                padding: 10px;
+                background-color: rgb(60, 42, 88);;
+                color: white;
+                border-radius: 8px 8px 0px 0px;
+            }
+            div#editorframe{
+                border: 2px solid rgb(60, 42, 88);
+                height: 100%;
+                width: 746px;
+            }
+            iframe#texteditor{
+                height: 100%;
+                width: 100%;
+            }
+            div#content > button{
+                color: white;
+                border: none;
+                outline: none;
+                background-color: transparent;
+                cursor: pointer;
+            }
+            div#content > button:hover{
+                background-color: rgb(14, 60, 52);
+                transition: all 0.3s linear 0s;
+
+            }
+            input[type ="color"]{
+                border: none;
+                outline: none;
+                background-color:transparent ;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div id="editor">
+            <div id="content">
+                <button class="butto"  data-type="bold" id="bold" title="Bold"><b data-type="bold">B</b></button>
+                <button class="butto" data-type="underline" id="underline" title="Underline"><b data-type="underline">U</b></button>
+                <button class="butto" data-type="italic" id="italic" title="Italic"><em data-type="italic">I</em></button>
+                <button class="butto" data-type="Superscript" id="sup" title="Superscript">X<sup data-type="Superscript">2</sup></button>
+                <button class="butto" data-type="Subscript" id="sub" title="Subscript">X<sub data-type="Subscript">2</sub></button>
+                <button class="butto" data-type="Strikethrough" id="strike" title="Strikethrough"><s data-type="Strikethrough">abc</s></button>
+                <button class="butto" data-type="insertOrderedList" id="orderedlist" title="Numbered List">(i)</button>
+                <button class="butto" data-type="insertUnorderedList" id="underedlist" title="Bullet List">&bull;</button>
+                <input class="input" data-type="ForeColor" type="color" id="fontcolor" title="Change Font Color">
+                <input class="input" data-type="BackColor" type="color" id="highlightcolor" title="Highlight Text">
+                <select id="fontchange" class="input" data-type="FontName">
+                    <option value="Tims New Roman">Times New Roman</option>
+                    <option value="Consolas">Consolas</option>
+                    <option value="Tahoma">Tahoma</option>
+                    <option value="monospace">Monospace</option>
+                    <option value="cursive">Cursive</option>
+                    <option value="sans-serif">Sans-Serif</option>
+                    <option value="Calibri">Calibri</option>
+                </select>
+                <select id="fontsize" class="input" data-type="FontSize">
+                <script>
+                    for(var i =1; i < 10; i++){
+                        document.write("<option value='" + i + "'>" + i + "</option>");
+                    }
+                </script>
+                </select>
+                <button data-type="CreateLink" class="links" id="link" title="Create Link">Link</button>
+                <button data-type="Unlink" class="butto" id="unlink" title="Remove Link">Remove Link</button>
+                <button data-type="undo" class="butto" id="undo" title="Undo the Previous Action">&larr;</button>
+                <button data-type="redo" class="butto" id="redo" title="Redo">&rarr;</button>
+            </div>
+            <div id="editorframe">
+                
+                <iframe name="texteditor" id="texteditor" frameborder="0"></iframe>
+                <form id="theform" method="POST" action="editor.php">
+                    <textarea style="display: none;"  name="mytextarea" id="mytextarea" cols="100" rows="14"></textarea>
+                    <input id="mybtn" type="button" name="mybtn" value="Submit Data" onclick="submit_form()"/>
+
+                </form>
+
+            </div>
+        </div>
+        <script>
+            
+            window.addEventListener("load", function(){
+                const editorcommand = new  editclass();
+                editorcommand.buttoncommand();
+            })
+        var fonts = document.querySelectorAll("select#fontchange > option"); 
+        fonts.forEach((font) =>{
+            font.style.fontFamily= font.value;
+
+        })   
+
+        function submit_form()
+        {
+           console.log("done");
+           let theform = document.getElementById("theform");
+           theform.elements["mytextarea"].value = window.frames['texteditor'].document.body.innerHTML;
+           theform.submit();
+        }
+               
+        </script>
+    </body>
+</html>
